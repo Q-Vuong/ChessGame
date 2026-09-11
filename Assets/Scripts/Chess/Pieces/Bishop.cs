@@ -6,6 +6,8 @@ public class Bishop : ChessPiece
     {
     }
 
+    public override bool NeedsPathCheck => true;
+
     public override bool CanMove(Vector2Int from, Vector2Int to)
     {
         int dx = to.x - from.x;

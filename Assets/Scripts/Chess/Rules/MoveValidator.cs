@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
 public class MoveValidator
 {
+    private MoveSimulator moveSimulator = new MoveSimulator();
 
     public bool IsValidMove(Move move, ChessBoard board)
     {
@@ -24,11 +26,25 @@ public class MoveValidator
             }
         }
 
+
+        if (move.Piece is Pawn)
+        {
+            int dY = Math.Abs(move.To.y - move.From.y);
+            if (dY == 2)
+            {
+                if (!IsPathClear(move.From, move.To, board))
+                    return false;
+            }
+        }
+
         if (move.Piece.NeedsPathCheck)
         {
             if (!IsPathClear(move.From, move.To, board))
                 return false;
         }
+
+        if (!IsKingSafe(move, board))
+            return false;
 
         return true;
     }
@@ -99,5 +115,23 @@ public class MoveValidator
         }
 
         return false;
+    }
+
+    private bool IsKingSafe(Move move, ChessBoard board)
+    {
+        bool isSafe = true;
+
+        moveSimulator.Simulate(move, board);
+
+        King king = move.Piece is King piece ? piece : board.FindKing(move.Piece.Color);
+
+        ChessColor attackerColor = move.Piece.Color == ChessColor.White ? ChessColor.Black : ChessColor.White;
+
+        if (IsSquareAttacked(king.Position, attackerColor, board))
+            isSafe = false;
+
+        moveSimulator.Undo(move, board);
+
+        return isSafe;
     }
 }

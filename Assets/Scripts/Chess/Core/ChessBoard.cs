@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class ChessBoard
@@ -8,7 +9,7 @@ public class ChessBoard
     {
         Board = new ChessPiece?[8, 8];
     }
-    
+
     public bool AddPiece(ChessPiece piece, Vector2Int position)
     {
         if (Board[position.x, position.y] != null)
@@ -31,5 +32,17 @@ public class ChessBoard
 
         Board[position.x, position.y] = null;
         return chessPiece;
+    }
+
+    public King FindKing(ChessColor color)
+    {
+        foreach (ChessPiece? piece in Board)
+        {
+            if (piece is King king && piece.Color == color)
+                return king;
+        }
+
+        throw new InvalidOperationException("King not found.");
+
     }
 }

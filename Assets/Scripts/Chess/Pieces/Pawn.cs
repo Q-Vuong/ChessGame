@@ -12,6 +12,10 @@ public class Pawn : ChessPiece
         int dx = to.x - from.x;
         int dy = to.y - from.y;
         int directionY = Color == ChessColor.White ? 1 : -1;
+        int startingY = Color == ChessColor.White ? 1 : 6;
+
+        if(from.y == startingY)
+        return dx == 0 && (dy == directionY || dy == directionY * 2);
 
         return dx == 0 && dy == directionY;
     }

@@ -7,8 +7,6 @@ public class King : ChessPiece
     {
     }
 
-    public override bool NeedsPathCheck => false;
-
     public override bool CanMove(Vector2Int from, Vector2Int to)
     {
         int dx = Math.Abs(to.x - from.x);
