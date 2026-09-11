@@ -7,7 +7,20 @@ public class MoveValidator
 
     public bool IsValidMove(Move move, ChessBoard board)
     {
+        if (move.From != move.Piece.Position)
+            return false;
+
+        if (board.GetPiece(move.From) != move.Piece)
+            return false;
+
+        if (move is PromotionMove promotionMove)
+        {
+            if (promotionMove.Piece is not Pawn || (promotionMove.To.y != 7 && promotionMove.To.y != 0))
+                return false;
+        }
+
         ChessPiece? destination = board.GetPiece(move.To);
+
         if (destination == null)
         {
             if (!move.Piece.CanMove(move.From, move.To))
@@ -84,7 +97,7 @@ public class MoveValidator
         return true;
     }
 
-    private bool IsSquareAttacked(Vector2Int targetSquare, ChessColor attackerColor, ChessBoard board)
+    public bool IsSquareAttacked(Vector2Int targetSquare, ChessColor attackerColor, ChessBoard board)
     {
         for (int x = 0; x < 8; x++)
         {

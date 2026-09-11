@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ChessBoard
@@ -43,6 +44,20 @@ public class ChessBoard
         }
 
         throw new InvalidOperationException("King not found.");
+    }
 
+    public List<ChessPiece> GetPieces(ChessColor color)
+    {
+        List<ChessPiece> pieces = new List<ChessPiece>();
+
+        foreach (ChessPiece? piece in Board)
+        {
+            if (piece != null && piece.Color == color)
+            {
+                pieces.Add(piece);
+            }
+        }
+
+        return pieces;
     }
 }

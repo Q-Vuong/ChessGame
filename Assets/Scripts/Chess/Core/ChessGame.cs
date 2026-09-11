@@ -6,7 +6,11 @@ public class ChessGame : MonoBehaviour
     private BoardSetup boardSetup;
     private MoveValidator validator;
     private MoveExecutor moveExecutor;
+    private GameStateEvaluator stateEvaluator;
+
     private ChessColor currentTurn = ChessColor.White;
+
+    private bool gameOver;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -15,9 +19,12 @@ public class ChessGame : MonoBehaviour
         boardSetup = new BoardSetup();
         validator = new MoveValidator();
         moveExecutor = new MoveExecutor();
+        stateEvaluator = new GameStateEvaluator(validator);
 
         boardSetup.Setup(board);
-        TestGame();
+
+        TestGame testGame = new TestGame();
+        testGame.RunAllTests();
     }
 
     // Update is called once per frame
@@ -28,6 +35,12 @@ public class ChessGame : MonoBehaviour
 
     private void MakeMove(Move move)
     {
+        if (gameOver)
+        {
+            Debug.Log("Game Finished cannot move");
+            return;
+        }
+
         if (move.Piece.Color != currentTurn)
             return;
 
@@ -37,38 +50,25 @@ public class ChessGame : MonoBehaviour
         moveExecutor.ExecuteMove(move, board);
 
         currentTurn = currentTurn == ChessColor.White ? ChessColor.Black : ChessColor.White;
-    }
 
-    private void TestGame()
-    {
-        for (int x = 0; x < 8; x++)
+        GameState state = stateEvaluator.Evaluate(currentTurn, board);
+
+        switch (state)
         {
-            for (int y = 0; y < 8; y++)
-            {
-                ChessPiece piece = board.GetPiece(new Vector2Int(x, y));
-
-                if (piece != null)
-                {
-                    Debug.Log($"{piece.GetType().Name} - {piece.Color} - {piece.Position}");
-                }
-            }
+            case GameState.Normal:
+                Debug.Log("NORMAL => Continue");
+                break;
+            case GameState.Check:
+                Debug.Log("CHECK => Continue");
+                break;
+            case GameState.Checkmate:
+                gameOver = true;
+                Debug.Log("CHECKMATE => Game Finish");
+                break;
+            case GameState.Stalemate:
+                gameOver = true;
+                Debug.Log("Stalemate => Game Finish");
+                break;
         }
-
-        // ------------------------------
-
-        Pawn pawn = new Pawn(ChessColor.White, new Vector2Int(3, 1));
-        Knight knight = new Knight(ChessColor.White, new Vector2Int(1, 0));
-        Pawn pawnBlack = new Pawn(ChessColor.Black, new Vector2Int(1, 1));
-        Pawn pawnBlack1 = new Pawn(ChessColor.Black, new Vector2Int(1, 2));
-
-        board.AddPiece(pawnBlack, pawnBlack.Position);
-        board.AddPiece(pawnBlack1, pawnBlack1.Position);
-
-        //Move move = new Move(pawn, new Vector2Int(3, 1), new Vector2Int(3, 3));
-        Move move = new Move(knight, new Vector2Int(1, 0), new Vector2Int(2, 2));
-
-        MakeMove(move);
-
-        Debug.Log(currentTurn);
     }
 }
