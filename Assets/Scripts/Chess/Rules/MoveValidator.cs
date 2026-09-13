@@ -17,6 +17,9 @@ public class MoveValidator
         {
             if (promotionMove.Piece is not Pawn || (promotionMove.To.y != 7 && promotionMove.To.y != 0))
                 return false;
+
+            if (promotionMove.PromotionType == ChessPieceType.Pawn || promotionMove.PromotionType == ChessPieceType.King)
+                return false;
         }
 
         ChessPiece? destination = board.GetPiece(move.To);
@@ -43,11 +46,9 @@ public class MoveValidator
         if (move.Piece is Pawn)
         {
             int dY = Math.Abs(move.To.y - move.From.y);
-            if (dY == 2)
-            {
-                if (!IsPathClear(move.From, move.To, board))
-                    return false;
-            }
+
+            if (dY == 2 && !IsPathClear(move.From, move.To, board))
+                return false;
         }
 
         if (move.Piece.NeedsPathCheck)

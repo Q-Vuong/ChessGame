@@ -1,3 +1,5 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ChessGame : MonoBehaviour
@@ -9,8 +11,8 @@ public class ChessGame : MonoBehaviour
     private GameStateEvaluator stateEvaluator;
 
     private ChessColor currentTurn = ChessColor.White;
-
     private bool gameOver;
+    private Move lastMove;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -44,10 +46,17 @@ public class ChessGame : MonoBehaviour
         if (move.Piece.Color != currentTurn)
             return;
 
+        if(IsEnPassant(move, lastMove))
+        {
+            move = new EnPassantMove(move.Piece, move.From, move.To, lastMove.Piece.Position); 
+        }
+
         if (!validator.IsValidMove(move, board))
             return;
 
         moveExecutor.ExecuteMove(move, board);
+
+        lastMove = move;
 
         currentTurn = currentTurn == ChessColor.White ? ChessColor.Black : ChessColor.White;
 
@@ -70,5 +79,34 @@ public class ChessGame : MonoBehaviour
                 Debug.Log("Stalemate => Game Finish");
                 break;
         }
+    }
+
+    private bool IsEnPassant(Move move, Move? lastMove)
+    {
+        if (lastMove == null)
+            return false;
+
+        if (move.Piece is not Pawn || lastMove.Piece is not Pawn)
+            return false;
+
+        if (move.Piece.Color == lastMove.Piece.Color)
+            return false;
+
+        if (lastMove.From.y != 1 && lastMove.From.y != 6)
+            return false;
+
+        int dy = Math.Abs(lastMove.To.y - lastMove.From.y);
+        if (dy != 2)
+            return false;
+
+        int dx = Math.Abs(move.Piece.Position.x - lastMove.Piece.Position.x);
+        if (lastMove.Piece.Position.y != move.Piece.Position.y || dx != 1)
+            return false;
+
+        int middleY = (lastMove.From.y + lastMove.To.y) / 2;
+        if (move.To.y != middleY)
+            return false;
+
+        return true;
     }
 }
