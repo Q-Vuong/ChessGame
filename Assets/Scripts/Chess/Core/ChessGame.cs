@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ChessGame : MonoBehaviour
@@ -51,7 +50,7 @@ public class ChessGame : MonoBehaviour
             move = new EnPassantMove(move.Piece, move.From, move.To, lastMove.Piece.Position); 
         }
 
-        if (!validator.IsValidMove(move, board))
+        if (!validator.IsValidMove(move, lastMove, board))
             return;
 
         moveExecutor.ExecuteMove(move, board);

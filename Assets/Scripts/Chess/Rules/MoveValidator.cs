@@ -5,7 +5,7 @@ public class MoveValidator
 {
     private MoveSimulator moveSimulator = new MoveSimulator();
 
-    public bool IsValidMove(Move move, ChessBoard board)
+    public bool IsValidMove(Move move, Move lastMove, ChessBoard board)
     {
         if (move.From != move.Piece.Position)
             return false;
@@ -19,6 +19,12 @@ public class MoveValidator
                 return false;
 
             if (promotionMove.PromotionType == ChessPieceType.Pawn || promotionMove.PromotionType == ChessPieceType.King)
+                return false;
+        }
+
+        if (move is EnPassantMove enPassantMove)
+        {
+            if (!IsValidEnPassant(enPassantMove, lastMove, board))
                 return false;
         }
 
@@ -147,5 +153,34 @@ public class MoveValidator
         moveSimulator.Undo(move, board);
 
         return isSafe;
+    }
+
+    private bool IsValidEnPassant(EnPassantMove move, Move lastMove, ChessBoard board)
+    {
+        ChessPiece capturingPiece = move.Piece;
+        ChessPiece capturedPiece = board.GetPiece(move.CapturedPosition);
+
+        if (board.GetPiece(move.To) != null)
+            return false;
+        if (capturingPiece is not Pawn || capturedPiece is not Pawn)
+            return false;
+        if (capturingPiece.Color == capturedPiece.Color)
+            return false;
+        if (capturedPiece != lastMove.Piece)
+            return false;
+
+        int dy = Math.Abs(lastMove.To.y - lastMove.From.y);
+        if (dy != 2)
+            return false;
+
+        int dx = Math.Abs(capturingPiece.Position.x - capturedPiece.Position.x);
+        if (dx != 1)
+            return false;
+
+        int middleY = (lastMove.From.y + lastMove.To.y) / 2;
+        if (move.To.y != middleY || move.To.x != capturedPiece.Position.x)
+            return false;
+
+        return true;
     }
 }

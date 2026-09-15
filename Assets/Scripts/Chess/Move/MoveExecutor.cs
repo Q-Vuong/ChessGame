@@ -1,6 +1,9 @@
+using UnityEngine;
+
 public class MoveExecutor
 {
     private PromotionHandler promotionHandler;
+    private Vector2Int capturedPosition;
 
     public MoveExecutor()
     {
@@ -9,9 +12,19 @@ public class MoveExecutor
 
     public void ExecuteMove(Move move, ChessBoard board)
     {
-        if (board.GetPiece(move.To) != null)
+        switch (move)
         {
-            board.RemovePiece(move.To);
+            case EnPassantMove enPassantMove:
+                capturedPosition = enPassantMove.CapturedPosition;
+            break;
+            case Move:
+                capturedPosition = move.To;
+                break;
+        }
+
+        if (capturedPosition != null)
+        {
+            board.RemovePiece(capturedPosition);
         }
 
         board.RemovePiece(move.From);
