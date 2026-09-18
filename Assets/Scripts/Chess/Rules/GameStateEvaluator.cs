@@ -11,7 +11,7 @@ public class GameStateEvaluator
         this.validator = validator;
     }
 
-    private bool HasLegalMove(ChessColor color, ChessBoard board)
+    private bool HasLegalMove(ChessColor color, ChessBoard board, Move lastMove)
     {
         List<ChessPiece> pieces = board.GetPieces(color);
 
@@ -28,7 +28,7 @@ public class GameStateEvaluator
 
                     Move move = new Move(piece, piece.Position, targetSquare);
 
-                    if (validator.IsValidMove(move, board))
+                    if (validator.IsValidMove(move, lastMove, board))
                         return true;
                 }
             }
@@ -36,7 +36,7 @@ public class GameStateEvaluator
         return false;
     }
 
-    public GameState Evaluate(ChessColor color, ChessBoard board)
+    public GameState Evaluate(ChessColor color, ChessBoard board, Move lastMove)
     {
         King king = board.FindKing(color);
 
@@ -44,7 +44,7 @@ public class GameStateEvaluator
 
         if (validator.IsSquareAttacked(king.Position, attackerColor, board))
         {
-            if(HasLegalMove(color, board))
+            if(HasLegalMove(color, board, lastMove))
             {
                 return GameState.Check;
             }
@@ -55,7 +55,7 @@ public class GameStateEvaluator
         }
         else
         {
-            if(HasLegalMove(color, board))
+            if(HasLegalMove(color, board, lastMove))
             {
                 return GameState.Normal;
             }

@@ -8,6 +8,7 @@ public class ChessGame : MonoBehaviour
     private MoveValidator validator;
     private MoveExecutor moveExecutor;
     private GameStateEvaluator stateEvaluator;
+    private ChessBoardView boardView;
 
     private ChessColor currentTurn = ChessColor.White;
     private bool gameOver;
@@ -21,11 +22,13 @@ public class ChessGame : MonoBehaviour
         validator = new MoveValidator();
         moveExecutor = new MoveExecutor();
         stateEvaluator = new GameStateEvaluator(validator);
+        boardView = FindAnyObjectByType<ChessBoardView>();
 
         boardSetup.Setup(board);
+        boardView.Render();
 
         TestGame testGame = new TestGame();
-        testGame.RunAllTests();
+        testGame.RunAllTests(lastMove);
     }
 
     // Update is called once per frame
@@ -59,7 +62,7 @@ public class ChessGame : MonoBehaviour
 
         currentTurn = currentTurn == ChessColor.White ? ChessColor.Black : ChessColor.White;
 
-        GameState state = stateEvaluator.Evaluate(currentTurn, board);
+        GameState state = stateEvaluator.Evaluate(currentTurn, board, lastMove);
 
         switch (state)
         {

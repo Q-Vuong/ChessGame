@@ -16,16 +16,13 @@ public class MoveExecutor
         {
             case EnPassantMove enPassantMove:
                 capturedPosition = enPassantMove.CapturedPosition;
-            break;
+                break;
             case Move:
                 capturedPosition = move.To;
                 break;
         }
 
-        if (capturedPosition != null)
-        {
-            board.RemovePiece(capturedPosition);
-        }
+        board.RemovePiece(capturedPosition);
 
         board.RemovePiece(move.From);
 

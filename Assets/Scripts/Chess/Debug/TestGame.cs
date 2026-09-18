@@ -13,13 +13,13 @@ public class TestGame
         evaluator = new GameStateEvaluator(validator);
     }
 
-    public void RunAllTests()
+    public void RunAllTests(Move lastMove)
     {
-        //TestMove();
-        // TestNormal();
-        // TestCheck();
-        // TestCheckmate();
-        // TestStalemate();
+        // TestMove();
+        // TestNormal(lastMove);
+        // TestCheck(lastMove);
+        // TestCheckmate(lastMove);
+        // TestStalemate(lastMove);
 
         TestNormalCapture();
         TestEnPassant();
@@ -58,7 +58,7 @@ public class TestGame
         Move move = new Move(knight, new Vector2Int(1, 0), new Vector2Int(2, 2));
     }
 
-    private void TestNormal()
+    private void TestNormal(Move lastMove)
     {
         board = new ChessBoard();
 
@@ -77,13 +77,14 @@ public class TestGame
 
         GameState state = evaluator.Evaluate(
             ChessColor.White,
-            board
+            board,
+            lastMove
         );
 
         Debug.Log($"TestNormal: {state}");
     }
 
-    private void TestCheck()
+    private void TestCheck(Move lastMove)
     {
         board = new ChessBoard();
 
@@ -108,13 +109,14 @@ public class TestGame
 
         GameState state = evaluator.Evaluate(
             ChessColor.White,
-            board
+            board,
+            lastMove
         );
 
         Debug.Log($"TestCheck: {state}");
     }
 
-    private void TestCheckmate()
+    private void TestCheckmate(Move lastMove)
     {
         board = new ChessBoard();
 
@@ -139,13 +141,14 @@ public class TestGame
 
         GameState state = evaluator.Evaluate(
             ChessColor.White,
-            board
+            board,
+            lastMove
         );
 
         Debug.Log($"TestCheckmate: {state}");
     }
 
-    private void TestStalemate()
+    private void TestStalemate(Move lastMove)
     {
         board = new ChessBoard();
 
@@ -170,7 +173,8 @@ public class TestGame
 
         GameState state = evaluator.Evaluate(
             ChessColor.White,
-            board
+            board,
+            lastMove
         );
 
         Debug.Log($"TestStalemate: {state}");
