@@ -13,7 +13,7 @@ public class GameStateEvaluator
 
     private bool HasLegalMove(ChessColor color, ChessBoard board, Move lastMove)
     {
-        List<ChessPiece> pieces = board.GetPieces(color);
+        List<ChessPiece> pieces = board.GetPiecesByColor(color);
 
         foreach (ChessPiece piece in pieces)
         {

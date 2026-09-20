@@ -46,7 +46,7 @@ public class ChessBoard
         throw new InvalidOperationException("King not found.");
     }
 
-    public List<ChessPiece> GetPieces(ChessColor color)
+    public List<ChessPiece> GetPiecesByColor(ChessColor color)
     {
         List<ChessPiece> pieces = new List<ChessPiece>();
 
@@ -56,6 +56,19 @@ public class ChessBoard
             {
                 pieces.Add(piece);
             }
+        }
+
+        return pieces;
+    }
+
+    public List<ChessPiece> GetPieces()
+    {
+        List<ChessPiece> pieces = new List<ChessPiece>();
+
+        foreach (ChessPiece? piece in Board)
+        {
+            if (piece != null)
+                pieces.Add(piece);
         }
 
         return pieces;
