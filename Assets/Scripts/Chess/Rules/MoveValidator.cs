@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class MoveValidator
 {
-    private MoveSimulator moveSimulator = new MoveSimulator();
+    private MoveSimulator _moveSimulator = new MoveSimulator();
 
     public bool IsValidMove(Move move, Move lastMove, ChessBoard board)
     {
@@ -141,7 +141,7 @@ public class MoveValidator
     {
         bool isSafe = true;
 
-        moveSimulator.Simulate(move, board);
+        _moveSimulator.Simulate(move, board);
 
         King king = move.Piece is King piece ? piece : board.FindKing(move.Piece.Color);
 
@@ -150,7 +150,7 @@ public class MoveValidator
         if (IsSquareAttacked(king.Position, attackerColor, board))
             isSafe = false;
 
-        moveSimulator.Undo(move, board);
+        _moveSimulator.Undo(move, board);
 
         return isSafe;
     }

@@ -6,8 +6,6 @@ public class ChessBoardView : MonoBehaviour
     private GameObject _whiteSquarePrefab;
     [SerializeField]
     private GameObject _blackSquarePrefab;
-    [SerializeField]
-    private int _squareSize;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -27,7 +25,7 @@ public class ChessBoardView : MonoBehaviour
         {
             for (int y = 0; y < 8; y++)
             {
-                Vector3 position = new Vector3(x * _squareSize, 0, y * _squareSize);
+                Vector3 position = new Vector3(x, 0, y);
 
                 if ((x + y) % 2 == 0)
                 {

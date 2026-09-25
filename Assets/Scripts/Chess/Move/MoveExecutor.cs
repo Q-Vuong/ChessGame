@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class MoveExecutor
 {
-    private PromotionHandler promotionHandler;
-    private Vector2Int capturedPosition;
+    private PromotionHandler _promotionHandler;
+    private Vector2Int _capturedPosition;
 
     public MoveExecutor()
     {
-        promotionHandler = new PromotionHandler();
+        _promotionHandler = new PromotionHandler();
     }
 
     public void ExecuteMove(Move move, ChessBoard board)
@@ -15,20 +15,20 @@ public class MoveExecutor
         switch (move)
         {
             case EnPassantMove enPassantMove:
-                capturedPosition = enPassantMove.CapturedPosition;
+                _capturedPosition = enPassantMove.CapturedPosition;
                 break;
             case Move:
-                capturedPosition = move.To;
+                _capturedPosition = move.To;
                 break;
         }
 
-        board.RemovePiece(capturedPosition);
+        board.RemovePiece(_capturedPosition);
 
         board.RemovePiece(move.From);
 
         if (move is PromotionMove promotionMove && move.Piece is Pawn pawn)
         {
-            ChessPiece promotePiece = promotionHandler.Promote(pawn, promotionMove.PromotionType, move.To);
+            ChessPiece promotePiece = _promotionHandler.Promote(pawn, promotionMove.PromotionType, move.To);
             board.AddPiece(promotePiece, move.To);
         }
         else

@@ -4,11 +4,11 @@ using UnityEngine;
 public class GameStateEvaluator
 {
 
-    private MoveValidator validator;
+    private MoveValidator _validator;
 
     public GameStateEvaluator(MoveValidator validator)
     {
-        this.validator = validator;
+        this._validator = validator;
     }
 
     private bool HasLegalMove(ChessColor color, ChessBoard board, Move lastMove)
@@ -28,7 +28,7 @@ public class GameStateEvaluator
 
                     Move move = new Move(piece, piece.Position, targetSquare);
 
-                    if (validator.IsValidMove(move, lastMove, board))
+                    if (_validator.IsValidMove(move, lastMove, board))
                         return true;
                 }
             }
@@ -42,7 +42,7 @@ public class GameStateEvaluator
 
         ChessColor attackerColor = color == ChessColor.White ? ChessColor.Black : ChessColor.White;
 
-        if (validator.IsSquareAttacked(king.Position, attackerColor, board))
+        if (_validator.IsSquareAttacked(king.Position, attackerColor, board))
         {
             if(HasLegalMove(color, board, lastMove))
             {

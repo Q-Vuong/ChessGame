@@ -3,32 +3,32 @@ using UnityEngine;
 
 public class ChessGame : MonoBehaviour
 {
-    private ChessBoard board;
-    private BoardSetup boardSetup;
-    private MoveValidator validator;
-    private MoveExecutor moveExecutor;
-    private GameStateEvaluator stateEvaluator;
-    private ChessBoardView boardView;
-    private ChessPiecesView piecesView;
+    private ChessBoard _board;
+    private BoardSetup _boardSetup;
+    private MoveValidator _validator;
+    private MoveExecutor _moveExecutor;
+    private GameStateEvaluator _stateEvaluator;
+    private ChessBoardView _boardView;
+    private ChessPiecesView _piecesView;
 
-    private ChessColor currentTurn = ChessColor.White;
-    private bool gameOver;
-    private Move lastMove;
+    private ChessColor _currentTurn = ChessColor.White;
+    private bool _gameOver;
+    private Move _lastMove;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        board = new ChessBoard();
-        boardSetup = new BoardSetup();
-        validator = new MoveValidator();
-        moveExecutor = new MoveExecutor();
-        stateEvaluator = new GameStateEvaluator(validator);
-        boardView = FindAnyObjectByType<ChessBoardView>();
-        piecesView = FindAnyObjectByType<ChessPiecesView>();
+        _board = new ChessBoard();
+        _boardSetup = new BoardSetup();
+        _validator = new MoveValidator();
+        _moveExecutor = new MoveExecutor();
+        _stateEvaluator = new GameStateEvaluator(_validator);
+        _boardView = FindAnyObjectByType<ChessBoardView>();
+        _piecesView = FindAnyObjectByType<ChessPiecesView>();
 
-        boardSetup.Setup(board);
-        boardView.Render();
-        piecesView.Render(board);
+        _boardSetup.Setup(_board);
+        _boardView.Render();
+        _piecesView.Render(_board);
 
         // TestGame testGame = new TestGame();
         // testGame.RunAllTests(lastMove);
@@ -42,30 +42,30 @@ public class ChessGame : MonoBehaviour
 
     private void MakeMove(Move move)
     {
-        if (gameOver)
+        if (_gameOver)
         {
             Debug.Log("Game Finished cannot move");
             return;
         }
 
-        if (move.Piece.Color != currentTurn)
+        if (move.Piece.Color != _currentTurn)
             return;
 
-        if(IsEnPassant(move, lastMove))
+        if(IsEnPassant(move, _lastMove))
         {
-            move = new EnPassantMove(move.Piece, move.From, move.To, lastMove.Piece.Position); 
+            move = new EnPassantMove(move.Piece, move.From, move.To, _lastMove.Piece.Position); 
         }
 
-        if (!validator.IsValidMove(move, lastMove, board))
+        if (!_validator.IsValidMove(move, _lastMove, _board))
             return;
 
-        moveExecutor.ExecuteMove(move, board);
+        _moveExecutor.ExecuteMove(move, _board);
 
-        lastMove = move;
+        _lastMove = move;
 
-        currentTurn = currentTurn == ChessColor.White ? ChessColor.Black : ChessColor.White;
+        _currentTurn = _currentTurn == ChessColor.White ? ChessColor.Black : ChessColor.White;
 
-        GameState state = stateEvaluator.Evaluate(currentTurn, board, lastMove);
+        GameState state = _stateEvaluator.Evaluate(_currentTurn, _board, _lastMove);
 
         switch (state)
         {
@@ -76,11 +76,11 @@ public class ChessGame : MonoBehaviour
                 Debug.Log("CHECK => Continue");
                 break;
             case GameState.Checkmate:
-                gameOver = true;
+                _gameOver = true;
                 Debug.Log("CHECKMATE => Game Finish");
                 break;
             case GameState.Stalemate:
-                gameOver = true;
+                _gameOver = true;
                 Debug.Log("Stalemate => Game Finish");
                 break;
         }

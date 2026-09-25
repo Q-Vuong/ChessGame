@@ -28,8 +28,6 @@ public class ChessPiecesView : MonoBehaviour
     private GameObject _BlackQueenPrefab;
     [SerializeField]
     private GameObject _BlackKingPrefab;
-    [SerializeField]
-    private int _squareSize;
 
     private Dictionary<(Type, ChessColor), GameObject> _piecePrefabs;
 
@@ -69,7 +67,7 @@ public class ChessPiecesView : MonoBehaviour
         foreach (ChessPiece piece in board.GetPieces())
         {
             //GameObject prefab = _piecePrefabs[(piece.GetType(), piece.Color)];
-            Vector3 position = new Vector3(piece.Position.x * _squareSize, 0, piece.Position.y * _squareSize);
+            Vector3 position = new Vector3(piece.Position.x, 0, piece.Position.y);
 
             if (_piecePrefabs.TryGetValue((piece.GetType(), piece.Color), out GameObject prefab))
             {

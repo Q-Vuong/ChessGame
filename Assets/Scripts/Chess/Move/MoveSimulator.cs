@@ -2,28 +2,28 @@ using UnityEngine;
 
 public class MoveSimulator
 {
-    private ChessPiece? capturedPiece;
-    private Vector2Int capturedPosition;
+    private ChessPiece? _capturedPiece;
+    private Vector2Int _capturedPosition;
 
     public void Simulate(Move move, ChessBoard board)
     {
         switch (move)
         {
             case EnPassantMove enPassantMove:
-                capturedPiece = board.GetPiece(enPassantMove.CapturedPosition);
-                capturedPosition = enPassantMove.CapturedPosition;
+                _capturedPiece = board.GetPiece(enPassantMove.CapturedPosition);
+                _capturedPosition = enPassantMove.CapturedPosition;
                 break;
             case Move:
-                capturedPiece = board.GetPiece(move.To);
-                capturedPosition = move.To;
+                _capturedPiece = board.GetPiece(move.To);
+                _capturedPosition = move.To;
                 break;
         }
 
         board.RemovePiece(move.From);
 
-        if (capturedPiece != null)
+        if (_capturedPiece != null)
         {
-            board.RemovePiece(capturedPosition);
+            board.RemovePiece(_capturedPosition);
         }
 
         board.AddPiece(move.Piece, move.To);
@@ -35,9 +35,9 @@ public class MoveSimulator
         board.RemovePiece(move.To);
         board.AddPiece(move.Piece, move.From);
 
-        if (capturedPiece != null)
+        if (_capturedPiece != null)
         {
-            board.AddPiece(capturedPiece, capturedPosition);
+            board.AddPiece(_capturedPiece, _capturedPosition);
         }
 
         move.Piece.UpdatePosition(move.From);
