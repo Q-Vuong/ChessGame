@@ -10,10 +10,20 @@ public class ChessGame : MonoBehaviour
     private GameStateEvaluator _stateEvaluator;
     private ChessBoardView _boardView;
     private ChessPiecesView _piecesView;
+    private ChessInput _chessInput;
 
+    [SerializeField]
     private ChessColor _currentTurn = ChessColor.White;
     private bool _gameOver;
     private Move _lastMove;
+    private ChessPiece _selectedPiece;
+    private Vector2Int _selectedTarget;
+    private ChessPiece _capturedPiece;
+
+    private void Awake()
+    {
+        _chessInput = FindAnyObjectByType<ChessInput>();
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,6 +33,7 @@ public class ChessGame : MonoBehaviour
         _validator = new MoveValidator();
         _moveExecutor = new MoveExecutor();
         _stateEvaluator = new GameStateEvaluator(_validator);
+
         _boardView = FindAnyObjectByType<ChessBoardView>();
         _piecesView = FindAnyObjectByType<ChessPiecesView>();
 
@@ -40,26 +51,96 @@ public class ChessGame : MonoBehaviour
 
     }
 
-    private void MakeMove(Move move)
+    void OnEnable()
+    {
+        _chessInput.SquareClicked += OnSquareClicked;
+    }
+
+
+    void OnDisable()
+    {
+        _chessInput.SquareClicked -= OnSquareClicked;
+    }
+
+    private void OnSquareClicked(Vector2Int position)
+    {
+        ChessPiece? piece = _board.GetPiece(position);
+
+        if (_selectedPiece == null)
+        {
+            if (_gameOver)
+                return;
+
+            if (piece == null)
+                return;
+
+            if (piece.Color != _currentTurn)
+                return;
+
+            _selectedPiece = piece;
+            Debug.Log($"Selected: {_selectedPiece.GetType().Name} - {_selectedPiece.Color}");
+        }
+        else
+        {
+            if (piece != null && piece.Color == _currentTurn)
+            {
+                _selectedPiece = piece;
+                Debug.Log($"Selected: {_selectedPiece.GetType().Name} - {_selectedPiece.Color}");
+                return;
+            }
+
+            _selectedTarget = position;
+
+            Move move = new Move(
+                _selectedPiece,
+                _selectedPiece.Position,
+                _selectedTarget
+            );
+
+            bool stateMove = MakeMove(move);
+
+            if (stateMove)
+            {
+                _piecesView.UpdatePiecePosition(move.Piece, move.To);
+
+                if (_capturedPiece != null)
+                {
+                    _piecesView.RemovePiece(_capturedPiece);
+                }
+
+                _selectedPiece = default;
+                _selectedTarget = default;
+                _capturedPiece = default;
+
+                Debug.Log("Success move");
+            }
+            else
+            {
+                Debug.Log("Fail move");
+            }
+        }
+    }
+
+    private bool MakeMove(Move move)
     {
         if (_gameOver)
         {
             Debug.Log("Game Finished cannot move");
-            return;
+            return false;
         }
 
         if (move.Piece.Color != _currentTurn)
-            return;
+            return false;
 
-        if(IsEnPassant(move, _lastMove))
+        if (IsEnPassant(move, _lastMove))
         {
-            move = new EnPassantMove(move.Piece, move.From, move.To, _lastMove.Piece.Position); 
+            move = new EnPassantMove(move.Piece, move.From, move.To, _lastMove.Piece.Position);
         }
 
         if (!_validator.IsValidMove(move, _lastMove, _board))
-            return;
+            return false;
 
-        _moveExecutor.ExecuteMove(move, _board);
+        _capturedPiece = _moveExecutor.ExecuteMove(move, _board);
 
         _lastMove = move;
 
@@ -84,6 +165,8 @@ public class ChessGame : MonoBehaviour
                 Debug.Log("Stalemate => Game Finish");
                 break;
         }
+
+        return true;
     }
 
     private bool IsEnPassant(Move move, Move? lastMove)

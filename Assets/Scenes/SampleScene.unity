@@ -205,13 +205,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
+  m_LocalPosition: {x: 4, y: 8, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,6 +256,71 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!1001 &369860663
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3162082765675257300, guid: 87e29f7f64ee37e43a2973a0622e00e1, type: 3}
+      propertyPath: m_Name
+      value: chess_board
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833167676889141362, guid: 87e29f7f64ee37e43a2973a0622e00e1, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833167676889141362, guid: 87e29f7f64ee37e43a2973a0622e00e1, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833167676889141362, guid: 87e29f7f64ee37e43a2973a0622e00e1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.52
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833167676889141362, guid: 87e29f7f64ee37e43a2973a0622e00e1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833167676889141362, guid: 87e29f7f64ee37e43a2973a0622e00e1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833167676889141362, guid: 87e29f7f64ee37e43a2973a0622e00e1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833167676889141362, guid: 87e29f7f64ee37e43a2973a0622e00e1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833167676889141362, guid: 87e29f7f64ee37e43a2973a0622e00e1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833167676889141362, guid: 87e29f7f64ee37e43a2973a0622e00e1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833167676889141362, guid: 87e29f7f64ee37e43a2973a0622e00e1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833167676889141362, guid: 87e29f7f64ee37e43a2973a0622e00e1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3833167676889141362, guid: 87e29f7f64ee37e43a2973a0622e00e1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 87e29f7f64ee37e43a2973a0622e00e1, type: 3}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,6 +448,50 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1 &682107950
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 682107952}
+  - component: {fileID: 682107951}
+  m_Layer: 0
+  m_Name: Chess_Input
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &682107951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 682107950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c5e202230b96407598b1588e76a0cab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChessInput
+--- !u!4 &682107952
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 682107950}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.34036, y: 0, z: 1.54951}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -463,7 +572,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ChessBoardView
   _whiteSquarePrefab: {fileID: 4874857229397178051, guid: 75dc2c56857f24323800220cb4347b91, type: 3}
   _blackSquarePrefab: {fileID: 4494315737334735889, guid: 8beca2c68b38b485fb946f4ddc1417cc, type: 3}
-  _squareSize: 1
 --- !u!4 &877801514
 Transform:
   m_ObjectHideFlags: 0
@@ -523,19 +631,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d47a07f2bb85a4106a27918b8f50ebd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChessPiecesView
-  _WhitePawnPrefab: {fileID: 4074928000444393810, guid: 8eee64cb9ff314e7eba1a19f46ce5753, type: 3}
-  _WhiteRookPrefab: {fileID: 6824134857730337602, guid: a1fa7359b40324331a6496f8e9660b6c, type: 3}
-  _WhiteKnightPrefab: {fileID: 6824843656831189593, guid: 9ede8daa2956a4a71a7c5492d3451666, type: 3}
-  _WhiteBishopPrefab: {fileID: 5408417886092491775, guid: 32ade4862831f47868ecbec1ab52cb6a, type: 3}
-  _WhiteQueenPrefab: {fileID: 6816685745999365316, guid: cfae71a24f89b421291d8a78f4521a4c, type: 3}
-  _WhiteKingPrefab: {fileID: 2605844386699867377, guid: 16b0a4c40644c47f38fbe437c724b7ff, type: 3}
-  _BlackPawnPrefab: {fileID: 4074928000444393810, guid: 8eee64cb9ff314e7eba1a19f46ce5753, type: 3}
-  _BlackRookPrefab: {fileID: 6824134857730337602, guid: a1fa7359b40324331a6496f8e9660b6c, type: 3}
-  _BlackKnightPrefab: {fileID: 6824843656831189593, guid: 9ede8daa2956a4a71a7c5492d3451666, type: 3}
-  _BlackBishopPrefab: {fileID: 5408417886092491775, guid: 32ade4862831f47868ecbec1ab52cb6a, type: 3}
-  _BlackQueenPrefab: {fileID: 6816685745999365316, guid: cfae71a24f89b421291d8a78f4521a4c, type: 3}
-  _BlackKingPrefab: {fileID: 2605844386699867377, guid: 16b0a4c40644c47f38fbe437c724b7ff, type: 3}
-  _squareSize: 1
+  _WhitePawnPrefab: {fileID: 5286745422444346062, guid: 0a3b73c25d997460d8193379bc3469e6, type: 3}
+  _WhiteRookPrefab: {fileID: 5635719900403709809, guid: 4094aee1762a046c39b15f8d55da73d1, type: 3}
+  _WhiteKnightPrefab: {fileID: 8102382628277633662, guid: da905a86de40b4b00a24a5ed08839c64, type: 3}
+  _WhiteBishopPrefab: {fileID: 1617006495535934705, guid: 2f7dab898d0594491812d556de67fa8e, type: 3}
+  _WhiteQueenPrefab: {fileID: 5915453906044786394, guid: d4db5463c6a9041bcbd6532efb4140ff, type: 3}
+  _WhiteKingPrefab: {fileID: 4656232142911254987, guid: ef30f85fb5f6f400c9d03b331d107a0b, type: 3}
+  _BlackPawnPrefab: {fileID: 1398560650738469608, guid: af66657a2e41d40608f8c63f4c84483a, type: 3}
+  _BlackRookPrefab: {fileID: 6140407245025915335, guid: e582e79fac17f42fa9b0440c6790b7a0, type: 3}
+  _BlackKnightPrefab: {fileID: 9113134263143518567, guid: 1aa104006f1cb46928df6603dccbbde5, type: 3}
+  _BlackBishopPrefab: {fileID: 7828291206724530319, guid: a3f335d3106534cff85621b5b7d3bc6e, type: 3}
+  _BlackQueenPrefab: {fileID: 7290259936916476967, guid: 72aad251755f340efb1f488ef1d75dae, type: 3}
+  _BlackKingPrefab: {fileID: 2253041443224210963, guid: ad2f9791455c74b308665dbde293d5c9, type: 3}
 --- !u!1 &1700403640
 GameObject:
   m_ObjectHideFlags: 0
@@ -565,6 +672,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05bb934fd082a4526bdbdebb7587f1e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChessGame
+  _currentTurn: 1
 --- !u!4 &1700403642
 Transform:
   m_ObjectHideFlags: 0
@@ -590,3 +698,5 @@ SceneRoots:
   - {fileID: 1700403642}
   - {fileID: 877801514}
   - {fileID: 878164203}
+  - {fileID: 682107952}
+  - {fileID: 369860663}

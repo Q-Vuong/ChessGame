@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4904023032363924234}
   - component: {fileID: 5780482924927210013}
   - component: {fileID: 4212770605713818148}
+  - component: {fileID: 767931082232664225}
   m_Layer: 0
   m_Name: Bishop
   m_TagString: Untagged
@@ -112,3 +113,15 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &767931082232664225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5408417886092491775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f6061d2c032f4622b283808a92588d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChessPieceView

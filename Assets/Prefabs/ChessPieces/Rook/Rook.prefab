@@ -121,6 +121,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5342618659651546626}
+  - component: {fileID: 6356616169227590601}
   m_Layer: 0
   m_Name: Rook
   m_TagString: Untagged
@@ -145,6 +146,18 @@ Transform:
   - {fileID: 7053739002322562863}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6356616169227590601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6824134857730337602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f6061d2c032f4622b283808a92588d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChessPieceView
 --- !u!1 &6865915546081471547
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,28 +1,35 @@
+using System;
 using UnityEngine;
 
 public class MoveExecutor
 {
     private PromotionHandler _promotionHandler;
-    private Vector2Int _capturedPosition;
 
     public MoveExecutor()
     {
         _promotionHandler = new PromotionHandler();
     }
 
-    public void ExecuteMove(Move move, ChessBoard board)
+    public ChessPiece? ExecuteMove(Move move, ChessBoard board)
     {
+        Vector2Int capturedPosition;
+        ChessPiece? capturedPiece;
+
         switch (move)
         {
             case EnPassantMove enPassantMove:
-                _capturedPosition = enPassantMove.CapturedPosition;
+                capturedPosition = enPassantMove.CapturedPosition;
                 break;
             case Move:
-                _capturedPosition = move.To;
+                capturedPosition = move.To;
                 break;
+            default:
+                throw new InvalidOperationException();
         }
 
-        board.RemovePiece(_capturedPosition);
+        capturedPiece = board.GetPiece(capturedPosition);
+
+        board.RemovePiece(capturedPosition);
 
         board.RemovePiece(move.From);
 
@@ -36,5 +43,7 @@ public class MoveExecutor
             board.AddPiece(move.Piece, move.To);
             move.Piece.UpdatePosition(move.To);
         }
+
+        return capturedPiece;
     }
 }

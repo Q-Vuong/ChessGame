@@ -2,15 +2,8 @@ using UnityEngine;
 
 public class ChessPieceView : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void UpdatePosition(Vector2Int position)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        transform.position = new Vector3(position.x, 0, position.y);
     }
 }

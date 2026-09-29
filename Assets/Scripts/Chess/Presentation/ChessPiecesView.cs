@@ -30,6 +30,7 @@ public class ChessPiecesView : MonoBehaviour
     private GameObject _BlackKingPrefab;
 
     private Dictionary<(Type, ChessColor), GameObject> _piecePrefabs;
+    private Dictionary<ChessPiece, ChessPieceView> _pieceViews;
 
     private void Awake()
     {
@@ -48,18 +49,8 @@ public class ChessPiecesView : MonoBehaviour
             {(typeof(Queen), ChessColor.Black), _BlackQueenPrefab},
             {(typeof(King), ChessColor.Black), _BlackKingPrefab}
         };
-    }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        _pieceViews = new();
     }
 
     public void Render(ChessBoard board)
@@ -71,12 +62,32 @@ public class ChessPiecesView : MonoBehaviour
 
             if (_piecePrefabs.TryGetValue((piece.GetType(), piece.Color), out GameObject prefab))
             {
-                Instantiate(prefab, position, prefab.transform.rotation, transform);
+                GameObject pieceObject = Instantiate(prefab, position, prefab.transform.rotation, transform);
+
+                ChessPieceView pieceView = pieceObject.GetComponent<ChessPieceView>();
+                _pieceViews.Add(piece, pieceView);
             }
             else
             {
                 Debug.LogError($"No prefab found for {piece.GetType()} {piece.Color}");
             }
+        }
+    }
+
+    public void UpdatePiecePosition(ChessPiece piece, Vector2Int position)
+    {
+        if(_pieceViews.TryGetValue(piece, out ChessPieceView pieceView))
+        {
+            pieceView.UpdatePosition(position);
+        }
+    }
+
+    public void RemovePiece (ChessPiece piece)
+    {
+        if (_pieceViews.TryGetValue(piece, out ChessPieceView pieceView))
+        {
+            Destroy(pieceView.gameObject);
+            _pieceViews.Remove(piece);
         }
     }
 }
