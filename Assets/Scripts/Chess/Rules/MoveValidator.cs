@@ -27,27 +27,28 @@ public class MoveValidator
             if (!IsValidEnPassant(enPassantMove, lastMove, board))
                 return false;
         }
-
-        ChessPiece? destination = board.GetPiece(move.To);
-
-        if (destination == null)
-        {
-            if (!move.Piece.CanMove(move.From, move.To))
-                return false;
-        }
         else
         {
-            if (destination.Color == move.Piece.Color)
+            ChessPiece? destination = board.GetPiece(move.To);
+
+            if (destination == null)
             {
-                return false;
+                if (!move.Piece.CanMove(move.From, move.To))
+                    return false;
             }
             else
             {
-                if (!move.Piece.CanAttack(move.From, move.To))
+                if (destination.Color == move.Piece.Color)
+                {
                     return false;
+                }
+                else
+                {
+                    if (!move.Piece.CanAttack(move.From, move.To))
+                        return false;
+                }
             }
         }
-
 
         if (move.Piece is Pawn)
         {

@@ -228,7 +228,7 @@ public class ChessGame : MonoBehaviour
         Debug.Log($"Selected: {selectedPiece.Position}");
         Debug.Log($"Target: {target}");
         Debug.Log($"LastMove: {lastMove?.From} -> {lastMove?.To}");
-        
+
         if (lastMove == null)
             return false;
 
@@ -246,7 +246,7 @@ public class ChessGame : MonoBehaviour
             return false;
 
         int dx = Math.Abs(selectedPiece.Position.x - lastMove.From.x);
-        if (lastMove.From.y != selectedPiece.Position.y || dx != 1)
+        if (lastMove.To.y != selectedPiece.Position.y || dx != 1)
             return false;
 
         int middleY = (lastMove.From.y + lastMove.To.y) / 2;
