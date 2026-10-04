@@ -90,4 +90,22 @@ public class ChessPiecesView : MonoBehaviour
             _pieceViews.Remove(piece);
         }
     }
+
+    public void ReplacePieceView(ChessPiece oldPiece, ChessPiece newPiece, Vector2Int position)
+    {
+        RemovePiece(oldPiece);
+
+        if(_piecePrefabs.TryGetValue((newPiece.GetType(), newPiece.Color), out GameObject prefab))
+        {
+            Vector3 pos = new Vector3(position.x, 0, position.y);
+            GameObject pieceObject = Instantiate(prefab, pos, prefab.transform.rotation, transform);
+
+            ChessPieceView pieceView = pieceObject.GetComponent<ChessPieceView>();
+            _pieceViews.Add(newPiece, pieceView);
+        }
+        else
+        {
+            Debug.LogError($"No prefab found for {newPiece.GetType()} {newPiece.Color}");
+        }
+    }
 }

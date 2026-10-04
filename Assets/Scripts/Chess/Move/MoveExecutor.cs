@@ -10,7 +10,7 @@ public class MoveExecutor
         _promotionHandler = new PromotionHandler();
     }
 
-    public ChessPiece? ExecuteMove(Move move, ChessBoard board)
+    public MoveExecutorResult ExecuteMove(Move move, ChessBoard board)
     {
         Vector2Int capturedPosition;
         ChessPiece? capturedPiece;
@@ -35,8 +35,9 @@ public class MoveExecutor
 
         if (move is PromotionMove promotionMove && move.Piece is Pawn pawn)
         {
-            ChessPiece promotePiece = _promotionHandler.Promote(pawn, promotionMove.PromotionType, move.To);
-            board.AddPiece(promotePiece, move.To);
+            ChessPiece newPiece = _promotionHandler.Promote(pawn, promotionMove.PromotionType, move.To);
+            board.AddPiece(newPiece, move.To);
+            return new MoveExecutorResult(capturedPiece, newPiece);
         }
         else
         {
@@ -44,6 +45,6 @@ public class MoveExecutor
             move.Piece.UpdatePosition(move.To);
         }
 
-        return capturedPiece;
+        return new MoveExecutorResult(capturedPiece, null);
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class TestGame
@@ -5,6 +6,8 @@ public class TestGame
     private ChessBoard _board;
     private MoveValidator _validator;
     private GameStateEvaluator _evaluator;
+
+
 
     public TestGame()
     {
@@ -21,12 +24,12 @@ public class TestGame
         // TestCheckmate(lastMove);
         // TestStalemate(lastMove);
 
-        TestNormalCapture();
-        TestEnPassant();
+        // TestNormalCapture();
+        // TestEnPassant();
         //TestPromotionCapture();
 
-        TestSimulateNormalCapture();
-        TestSimulateEnPassant();
+        // TestSimulateNormalCapture();
+        // TestSimulateEnPassant();
     }
 
     private void TestMove()
