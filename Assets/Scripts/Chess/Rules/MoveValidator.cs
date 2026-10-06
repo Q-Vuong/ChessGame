@@ -22,9 +22,16 @@ public class MoveValidator
                 return false;
         }
 
+        ChessColor attackerColor = move.Piece.Color == ChessColor.White ? ChessColor.Black : ChessColor.White;
+
         if (move is EnPassantMove enPassantMove)
         {
             if (!IsValidEnPassant(enPassantMove, lastMove, board))
+                return false;
+        }
+        else if (move is CastlingMove castlingMove)
+        {
+            if (!IsValidCastling(castlingMove, attackerColor, board))
                 return false;
         }
         else
@@ -64,7 +71,7 @@ public class MoveValidator
                 return false;
         }
 
-        if (!IsKingSafe(move, board))
+        if (!IsKingSafe(move, attackerColor, board))
             return false;
 
         return true;
@@ -138,15 +145,13 @@ public class MoveValidator
         return false;
     }
 
-    private bool IsKingSafe(Move move, ChessBoard board)
+    private bool IsKingSafe(Move move, ChessColor attackerColor, ChessBoard board)
     {
         bool isSafe = true;
 
         _moveSimulator.Simulate(move, board);
 
         King king = move.Piece is King piece ? piece : board.FindKing(move.Piece.Color);
-
-        ChessColor attackerColor = move.Piece.Color == ChessColor.White ? ChessColor.Black : ChessColor.White;
 
         if (IsSquareAttacked(king.Position, attackerColor, board))
             isSafe = false;
@@ -180,6 +185,38 @@ public class MoveValidator
 
         int middleY = (lastMove.From.y + lastMove.To.y) / 2;
         if (move.To.y != middleY || move.To.x != capturedPiece.Position.x)
+            return false;
+
+        return true;
+    }
+
+    private bool IsValidCastling(CastlingMove move, ChessColor attackerColor, ChessBoard board)
+    {
+        if (move.Piece is not King || move.RookPiece is not Rook)
+            return false;
+
+        if (move.Piece.Color != move.RookPiece.Color)
+            return false;
+
+        if (move.Piece.HasMoved || move.RookPiece.HasMoved)
+            return false;
+
+        int dx = Math.Abs(move.To.x - move.From.x);
+        int y = move.Piece.Color == ChessColor.White ? 0 : 7;
+        if (dx != 2 || move.From.y != y)
+            return false;
+
+        int PosRook_X = move.To.x > move.From.x ? 7 : 0;
+        if (move.From.y != move.RookPiece.Position.y || move.RookPiece.Position.x != PosRook_X)
+            return false;
+
+        if (!IsPathClear(move.From, move.RookPiece.Position, board))
+            return false;
+
+        int kingDirection = move.To.x > move.From.x ? 1 : -1;
+        Vector2Int kingPosition = move.From;
+        Vector2Int kingMoved = new Vector2Int(kingPosition.x + kingDirection, move.From.y);
+        if (IsSquareAttacked(kingPosition, attackerColor, board) || IsSquareAttacked(kingMoved, attackerColor, board))
             return false;
 
         return true;

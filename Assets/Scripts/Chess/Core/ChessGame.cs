@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class ChessGame : MonoBehaviour
@@ -47,12 +46,6 @@ public class ChessGame : MonoBehaviour
 
         //TestGame testGame = new TestGame();
         // testGame.RunAllTests(lastMove);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     void OnEnable()
@@ -134,6 +127,24 @@ public class ChessGame : MonoBehaviour
             return new EnPassantMove(selectedPiece, selectedPiece.Position, target, _lastMove.To);
         }
 
+        if (IsCastling(selectedPiece, target))
+        {
+            int dx = target.x - selectedPiece.Position.x;
+            int direction = (int)Mathf.Sign(dx);
+
+            int x = direction > 0 ? 7 : 0;
+            int y = selectedPiece.Position.y;
+            Vector2Int rookPos = new Vector2Int(x, y);
+            ChessPiece? rookPiece = _board.GetPiece(rookPos);
+
+            if (rookPiece == null || rookPiece is not Rook)
+            {
+                return new Move(selectedPiece, selectedPiece.Position, target);
+            }
+
+            return new CastlingMove(selectedPiece, selectedPiece.Position, target, rookPiece);
+        }
+
         return new Move(selectedPiece, selectedPiece.Position, target);
     }
 
@@ -208,7 +219,13 @@ public class ChessGame : MonoBehaviour
 
                 }
                 break;
-            case Move:
+            
+            case CastlingMove castlingMove:
+                _piecesView.UpdatePiecePosition(castlingMove.Piece, castlingMove.To);
+                _piecesView.UpdatePiecePosition(castlingMove.RookPiece, castlingMove.RookTo);
+                break;
+
+            default:
                 _piecesView.UpdatePiecePosition(move.Piece, move.To);
                 break;
         }
@@ -241,11 +258,11 @@ public class ChessGame : MonoBehaviour
         if (lastMove.From.y != 1 && lastMove.From.y != 6)
             return false;
 
-        int dy = Math.Abs(lastMove.To.y - lastMove.From.y);
+        int dy = Mathf.Abs(lastMove.To.y - lastMove.From.y);
         if (dy != 2)
             return false;
 
-        int dx = Math.Abs(selectedPiece.Position.x - lastMove.From.x);
+        int dx = Mathf.Abs(selectedPiece.Position.x - lastMove.From.x);
         if (lastMove.To.y != selectedPiece.Position.y || dx != 1)
             return false;
 
@@ -262,6 +279,18 @@ public class ChessGame : MonoBehaviour
             return false;
 
         if (move.To.y != 0 && move.To.y != 7)
+            return false;
+
+        return true;
+    }
+
+    private bool IsCastling(ChessPiece selectedPiece, Vector2Int target)
+    {
+        if (selectedPiece is not King)
+            return false;
+
+        int dx = Mathf.Abs(target.x - selectedPiece.Position.x);
+        if (dx != 2)
             return false;
 
         return true;

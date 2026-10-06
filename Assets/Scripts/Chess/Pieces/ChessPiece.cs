@@ -11,6 +11,12 @@ public class ChessPiece
     public ChessColor Color { get; private set; }
     public Vector2Int Position { get; private set; }
     public virtual bool NeedsPathCheck { get; } = false;
+    public bool HasMoved { get; private set; }
+
+    public void MarkAsMove()
+    {
+        HasMoved = true;
+    }
 
     public void UpdatePosition(Vector2Int newPosition)
     {
